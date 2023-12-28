@@ -29,13 +29,9 @@ const computeHash = (address) => {
       )
     );
     if (hashed_solution.startsWith("0x9999")) {
-      logInfo(`${FgGreen}solution found: ${hashed_solution}`);
+      logInfo(`solution found: ${hashed_solution}`);
       solution = potential_solution;
       break;
-    } else {
-      process.stdout.clearLine(0);
-      process.stdout.cursorTo(0);
-      process.stdout.write(`${FgRed}${hashed_solution}`);
     }
   }
 };
@@ -87,7 +83,7 @@ async function mine_rETH(idx) {
   const receipt = await provider.sendTransaction(signedTx);
   //await to confirm
   await provider.waitForTransaction(receipt.hash);
-  console.log(FgYellow, `Successful minted rETH: ${receipt.hash}`);
+  console.log(FgGreen, `Successful minted rETH: ${receipt.hash}`);
 }
 
 const sleep = (ms) => {
@@ -112,7 +108,7 @@ const showGasConsumptionAndBalance = async (txHash) => {
 const main = async () => {
   let mintedCount = 0;
   while (mintedCount < TotalMint) {
-    logInfo(`${FgYellow}#-${mintedCount}: Calculating solution...`);
+    logInfo(`#-${mintedCount}: Calculating solution...`);
     computeHash();
     try {
       await mine_rETH(mintedCount);
@@ -122,7 +118,7 @@ const main = async () => {
       // await sleep(sleepTime)
     } catch (ex) {
       console.error(ex);
-      logInfo(`${FgYellow}#-${mintedCount}: Failed to mint rETH`);
+      logInfo(`#-${mintedCount}: Failed to mint rETH`);
     }
   }
 };
