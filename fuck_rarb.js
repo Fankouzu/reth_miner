@@ -10,7 +10,7 @@ const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
 const privateKey = process.env.PRIVATEKEY;
 const wallet = new ethers.Wallet(privateKey, provider);
 const account = wallet.address;
-const currentChallenge = ethers.utils.formatBytes32String("rARB"); //0x7241524200000000000000000000000000000000000000000000000000000000
+const currentChallenge = ethers.utils.formatBytes32String("Fuck-rARB"); //0x4675636b2d724152420000000000000000000000000000000000000000000000
 
 let solution;
 
@@ -28,7 +28,7 @@ const computeHash = (address) => {
         [potential_solution, currentChallenge, account]
       )
     );
-    if (hashed_solution.startsWith("0x9999")) {
+    if (hashed_solution.startsWith("0xffff")) {
       logInfo(`solution found: ${hashed_solution}`);
       solution = potential_solution;
       break;
@@ -37,12 +37,6 @@ const computeHash = (address) => {
 };
 
 async function mine_rETH(idx) {
-  const network =await provider.getNetwork();
-  const currentGasPrice =await provider.getGasPrice();
-  const blockNumber =await provider.getBlockNumber();
-  const nonce_ =await wallet.getTransactionCount();
-  const balance =await wallet.getBalance();
-  console.log({ network, currentGasPrice, blockNumber, nonce_, balance });
   // data: application / json,
   //   {
   //     p: "rARB-20",
@@ -50,15 +44,15 @@ async function mine_rETH(idx) {
   //     tick: "rARB",
   //     solution:
   //       "0xf844e8b3e76f69140e80309080ffd49c4c6961a5882d5d3540f24d7f806d874d",
-  //     amt: "10000",
+  //     amt: "1000",
   //   };
 
   const jsonData = {
     p: "rARB-20",
     op: "mint",
-    tick: "rARB",
+    tick: "Fuck-rARB",
     solution: solution,
-    amt: "10000",
+    amt: "1000",
   };
 
   const dataHex = ethers.utils.hexlify(
@@ -85,10 +79,10 @@ async function mine_rETH(idx) {
     chainId: 42161,
   };
 
-  // const signedTx = await wallet.signTransaction(tx);
-  // const receipt = await provider.sendTransaction(signedTx);
+  const signedTx = await wallet.signTransaction(tx);
+  const receipt = await provider.sendTransaction(signedTx);
   //await to confirm
-  // await provider.waitForTransaction(receipt.hash);
+  await provider.waitForTransaction(receipt.hash);
   console.log(FgGreen, `Successful minted rETH: ${receipt.hash}`);
 }
 

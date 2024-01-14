@@ -3,8 +3,8 @@ dotenv.config();
 
 const TotalMint = 10;
 
-const RPC_URL = "https://bsc-dataseed.bnbchain.org";
-const chainId = 56;
+const RPC_URL = "https://mainnet.era.zksync.io";
+const chainId = 324;
 
 const { ethers } = require("ethers");
 const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
@@ -17,20 +17,17 @@ const FgYellow = "\x1b[33m";
 const FgRed = "\x1b[31m";
 
 async function mint() {
-  // COW
-  const dataHex = "0x646174613a2c7b2270223a226273632d3230222c226f70223a226d696e74222c227469636b223a22434f57222c22616d74223a223130227d";
-  // pepo
-  // const dataHex =
-    // "0x646174613a2c7b2270223a226273632d3230222c226f70223a226d696e74222c227469636b223a227065706f222c22616d74223a2231227d";
+  // ZKZK
+  const dataHex = "0x646174613a2c7b2270223a227a72632d3230222c226f70223a226d696e74222c227469636b223a227a6b7a6b222c22616d74223a2231303030227d";
   const nonce = await provider.getTransactionCount(account);
 
-  const ga = ethers.utils.parseUnits("3", "gwei");
+  const ga = ethers.utils.parseUnits("1.3", "gwei");
   const tx = {
     from: account,
     to: account, // Self-transfer
     nonce: nonce,
     gasPrice: ga,
-    gasLimit: ethers.utils.hexlify(23000),
+    gasLimit: ethers.utils.hexlify(230000),
     data: dataHex,
     chainId: chainId,
   };
